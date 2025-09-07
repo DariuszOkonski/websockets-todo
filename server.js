@@ -1,11 +1,16 @@
 const express = require('express');
 const path = require('path');
+const { uuid } = require('uuidv4');
 const socket = require('socket.io');
 
 const app = express();
 
 // Serve static files from the 'client' directory
 app.use(express.static(path.join(__dirname, 'client')));
+
+let tasks = [{ id: uuid(), name: 'Shopping' }];
+
+console.log(tasks);
 
 const PORT = process.env.PORT || 8000;
 
