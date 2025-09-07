@@ -10,8 +10,6 @@ app.use(express.static(path.join(__dirname, 'client')));
 
 let tasks = [{ id: v4(), name: 'Shopping' }];
 
-console.log(tasks);
-
 const PORT = process.env.PORT || 8000;
 
 const server = app.listen(process.env.PORT || 8000, () => {
@@ -25,6 +23,8 @@ app.use((req, res) => {
 const io = socket(server);
 
 io.on('connection', (socket) => {
+  console.log('Server socket connection');
+
   socket.on('updateData', () => {
     socket.broadcast.emit('tasks', tasks);
   });
