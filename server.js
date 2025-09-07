@@ -25,7 +25,8 @@ const io = socket(server);
 io.on('connection', (socket) => {
   console.log('Server socket connection');
 
-  socket.broadcast.emit('updateData', tasks);
+  socket.emit('updateData', tasks);
+  // socket.broadcast.emit('updateData', tasks);
 
   // socket.on('join', (incomingClient) => {
   //   const client = { id: socket.id, name: incomingClient.author };
