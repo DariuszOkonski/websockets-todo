@@ -1,6 +1,5 @@
 const express = require('express');
 const path = require('path');
-const { v4 } = require('node-uuid');
 const socket = require('socket.io');
 
 const app = express();
@@ -8,7 +7,7 @@ const app = express();
 // Serve static files from the 'client' directory
 app.use(express.static(path.join(__dirname, 'client')));
 
-let tasks = [{ id: v4(), name: 'Shopping' }];
+let tasks = [];
 
 const PORT = process.env.PORT || 8000;
 
@@ -23,22 +22,15 @@ app.use((req, res) => {
 const io = socket(server);
 
 io.on('connection', (socket) => {
-  console.log('Server socket connection: ', socket.id);
-
   socket.emit('updateData', tasks);
-  // socket.broadcast.emit('updateData', tasks);
 
   socket.on('addTask', (task) => {
-    console.log('Server is listening on addTask');
     tasks.push(task);
-
     socket.broadcast.emit('addTask', tasks);
   });
 
   socket.on('removeTask', (id) => {
-    console.log('Server is listening on removeTask: ');
     tasks = tasks.filter((task) => task.id !== id);
-
     socket.broadcast.emit('removeTask', tasks);
   });
 
