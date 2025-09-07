@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-const { uuid } = require('uuidv4');
+const { v4 } = require('node-uuid');
 const socket = require('socket.io');
 
 const app = express();
@@ -8,7 +8,7 @@ const app = express();
 // Serve static files from the 'client' directory
 app.use(express.static(path.join(__dirname, 'client')));
 
-let tasks = [{ id: uuid(), name: 'Shopping' }];
+let tasks = [{ id: v4(), name: 'Shopping' }];
 
 console.log(tasks);
 
@@ -25,6 +25,9 @@ app.use((req, res) => {
 const io = socket(server);
 
 io.on('connection', (socket) => {
+  socket.on('updateData', () => {
+    socket.broadcast.emit('tasks', tasks);
+  });
   // socket.on('join', (incomingClient) => {
   //   const client = { id: socket.id, name: incomingClient.author };
   //   users.push(client);
