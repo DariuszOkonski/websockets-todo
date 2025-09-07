@@ -28,6 +28,20 @@ io.on('connection', (socket) => {
   socket.emit('updateData', tasks);
   // socket.broadcast.emit('updateData', tasks);
 
+  socket.on('addTask', (task) => {
+    console.log('Server is listening on addTask');
+    tasks.push(task);
+
+    socket.broadcast.emit('addTask', tasks);
+  });
+
+  socket.on('removeTask', (id) => {
+    console.log('Server is listening on removeTask: ');
+    tasks = tasks.filter((task) => task.id !== id);
+
+    socket.broadcast.emit('removeTask', tasks);
+  });
+
   // socket.on('join', (incomingClient) => {
   //   const client = { id: socket.id, name: incomingClient.author };
   //   users.push(client);
