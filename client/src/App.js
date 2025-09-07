@@ -28,6 +28,10 @@ function App() {
   };
 
   const addTask = (task) => {
+    if (!task) {
+      return alert('task can not be empty');
+    }
+
     const newTask = { id: crypto.randomUUID(), name: task };
     setTasks((tasks) => [...tasks, newTask]);
     socket.emit('addTask', newTask);

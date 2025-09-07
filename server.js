@@ -26,34 +26,11 @@ io.on('connection', (socket) => {
 
   socket.on('addTask', (task) => {
     tasks.push(task);
-    socket.broadcast.emit('addTask', tasks);
+    socket.broadcast.emit('updateData', tasks);
   });
 
   socket.on('removeTask', (id) => {
     tasks = tasks.filter((task) => task.id !== id);
-    socket.broadcast.emit('removeTask', tasks);
+    socket.broadcast.emit('removeTask', id);
   });
-
-  // socket.on('join', (incomingClient) => {
-  //   const client = { id: socket.id, name: incomingClient.author };
-  //   users.push(client);
-  //   const message = {
-  //     author: 'Chat Bot',
-  //     content: `${client.name} has joined the conversation!`,
-  //   };
-  //   socket.broadcast.emit('message', message);
-  // });
-  // socket.on('message', (message) => {
-  //   messages.push(message);
-  //   socket.broadcast.emit('message', message);
-  // });
-  // socket.on('disconnect', () => {
-  //   const clientName = users.find((user) => user.id === socket.id).name;
-  //   const message = {
-  //     author: 'Chat Bot',
-  //     content: `${clientName} has left the conversation...`,
-  //   };
-  //   socket.broadcast.emit('message', message);
-  //   users = users.filter((user) => user.id !== socket.id);
-  // });
 });
