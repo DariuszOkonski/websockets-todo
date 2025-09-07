@@ -23,7 +23,7 @@ app.use((req, res) => {
 const io = socket(server);
 
 io.on('connection', (socket) => {
-  console.log('Server socket connection');
+  console.log('Server socket connection: ', socket.id);
 
   socket.emit('updateData', tasks);
   // socket.broadcast.emit('updateData', tasks);
